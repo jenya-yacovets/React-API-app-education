@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import SwapiService from "../../services/swapi"
+import ErrorIndicator from "../error-indicator"
 import Spiner from '../spiner'
 
 export default class RandomPlanet extends Component {
@@ -8,7 +9,8 @@ export default class RandomPlanet extends Component {
 
     state = {
         planet: {},
-        loading: true
+        loading: true,
+        error: false
     }
 
     constructor() {
@@ -22,24 +24,34 @@ export default class RandomPlanet extends Component {
             loading: false
          })
     }
+    onError = () => {
+        this.setState({
+            loading: false,
+            error: true
+         })
+    }
 
-    updatePlanet() {
-
+    updatePlanet = () => {
         const id = Math.floor(Math.random() * 20) + 2
 
         this.swapiServise.getPlanet(id)
             .then(this.onPlanetLoaded)
+            .catch(this.onError)
     }
 
     render() {
 
-        const { loading, planet } = this.state
+        const { loading, planet, error } = this.state
 
-        const content = loading ? <Spiner /> : <PlanetView planet={ planet } />
+        const errorContent = error ? < ErrorIndicator /> : null
+        const contentLoader = loading ? <Spiner /> : null
+        const content = !loading && !error ? <PlanetView planet={ planet } /> : null
 
         return (
             <div className="row g-0 text-white bg-dark">
                 { content }
+                { contentLoader }
+                { errorContent }
             </div>
         )
     }
