@@ -1,23 +1,26 @@
 import React, { Component } from "react";
 
 import Header from '../header'
-import ItemList from "../item-list";
 import RandomPlanet from '../random-planet'
-import PersonDetails from '../person-details'
+import ErrorIndicator from "../error-indicator";
+import PeoplePage from "../people-page";
 
 export default class App extends Component {
 
     state = {
-        selectedPerson: null
+        error: false
     }
 
-    onPersonSelected = (id) => {
+    componentDidCatch() {
         this.setState({
-            selectedPerson: id
+            error: true
         })
     }
-
+     
     render () {
+
+        if (this.state.error) return <ErrorIndicator />
+
         return (
             <div>
                 < Header />
@@ -27,10 +30,7 @@ export default class App extends Component {
                         < RandomPlanet />
                     </div>
                     <br/>
-                    <div className="row">
-                        < ItemList onPersonSelected={ this.onPersonSelected } />
-                        <PersonDetails personId={ this.state.selectedPerson } />
-                    </div>
+                    <PeoplePage />
                 </div>
             </div>
         )
