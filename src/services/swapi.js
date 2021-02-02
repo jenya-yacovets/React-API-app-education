@@ -46,7 +46,7 @@ export default class SwapiService {
         return item.url.match(idRegeEx)[1]
     }
 
-    _trandformPlanet(planet) {
+    _trandformPlanet = (planet) => {
         return {
             id: this._extractId(planet),
             name: planet.name,
@@ -56,7 +56,7 @@ export default class SwapiService {
         }
     }
 
-    _transformStarchip(starship) {
+    _transformStarchip = (starship) => {
         return {
             id: this._extractId(starship),
             name: starship.name,
@@ -70,13 +70,13 @@ export default class SwapiService {
         }
     }
 
-    _transformPerson(person) {
+    _transformPerson = (person) => {
         return {
             id: this._extractId(person),
             name: person.name,
             gender: person.gender,
-            bithYear: person.bithYear,
-            eyeColor: person.eyeColor
+            bithYear: person.birth_year,
+            eyeColor: person.eye_color
         }
     }
 }
