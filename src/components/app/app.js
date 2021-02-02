@@ -1,9 +1,22 @@
 import React, { Component } from "react";
 
 import Header from '../header'
+import ItemList from "../item-list";
 import RandomPlanet from '../random-planet'
+import PersonDetails from '../person-details'
 
 export default class App extends Component {
+
+    state = {
+        selectedPerson: null
+    }
+
+    onPersonSelected = (id) => {
+        console.log(id)
+        this.setState({
+            selectedPerson: id
+        })
+    }
 
     render () {
         return (
@@ -11,7 +24,15 @@ export default class App extends Component {
                 < Header />
                 <br/>
                 <div className="container">
-                   < RandomPlanet />
+                    <div className="row">
+                        < RandomPlanet />
+                    </div>
+                    <br/>
+                    <div className="row">
+                        
+                        < ItemList onPersonSelected={ this.onPersonSelected } />
+                        <PersonDetails />
+                    </div>
                 </div>
             </div>
         )
