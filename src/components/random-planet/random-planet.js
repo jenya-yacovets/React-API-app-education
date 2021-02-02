@@ -19,6 +19,11 @@ export default class RandomPlanet extends Component {
         this.updatePlanet()
         this.interval = setInterval(this.updatePlanet, 5000)
     }
+    
+    componentWillUnmount() {
+        console.log(1)
+        clearInterval(this.interval)
+    }
 
     onPlanetLoaded = (planet) => {
         this.setState({ 
@@ -71,14 +76,14 @@ const PlanetView = ({ planet }) => {
         <React.Fragment>
             <div className="row">
                 <div className="col-md-3">
-                        <img className="img-fluid" src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}></img>
+                        <img className="img-fluid" alt={ name } src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}></img>
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
                         <h5 className="card-title">{name}</h5>
-                        <p className="card-text"><b>population: </b>{population}</p>
-                        <p className="card-text"><b>Rotation Period: </b>{rotationPeriod}</p>
-                        <p className="card-text"><b>Диаметр: </b>{diameter}</p>
+                        <p className="card-text"><b>Население: </b>{population} жителей</p>
+                        <p className="card-text"><b>Длительность суток: </b>{rotationPeriod} ч.</p>
+                        <p className="card-text"><b>Диаметр: </b>{diameter} км.</p>
                     </div>
                 </div>
             </div>

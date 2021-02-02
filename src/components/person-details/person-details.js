@@ -1,37 +1,89 @@
 import React, { Component } from "react";
+import SwapiService from "../../services/swapi";
+import ErrorIndicator from "../error-indicator";
+import Spiner from "../spiner";
+
+import './person-details.css'
 
 export default class PersonDetails extends Component {
 
+    swapiServise = new SwapiService()
+
+    state = {
+        person: null,
+        loading: false,
+        error: false
+    }
+
+    updatePerson() {
+        const { personId } = this.props
+        if (!personId) return
+        
+        this.setState({
+            loading: true,
+        }) 
+
+        this.swapiServise.getPerson(personId)
+        .then(person => {
+            this.setState({
+                person,
+                loading: false,
+                error: false
+            })  
+        })
+        .catch(() => {
+            this.setState({
+                error: true
+            }) 
+        })
+    }
+
+    componentDidMount() {
+        this.updatePerson()
+    }
+    componentDidUpdate(prevProps) {
+        if (this.props.personId !== prevProps.personId) {
+            this.updatePerson()
+        }
+    }
+
     render() {
+
+        const { person, loading, error } = this.state
+
+        const contentError = error ? <ErrorIndicator /> : null
+        const contentLoader = loading && !error ? <Spiner /> : null
+        const content = !error && !loading ? <PersonView person={ person } /> : null
+
         return (
-            <div className="col-md-8">
-                <div className="card">
-                    <h3 className="card-header">Информация о персонаже</h3>
-                    <div className="card-body">
-                        <h5 className="card-title">Special title treatment</h5>
-                        <h6 className="card-subtitle text-muted">Support card subtitle</h6>
-                    </div>
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" className="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
-                        <rect width="100%" height="100%" fill="#868e96"></rect>
-                        <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                    </svg> */}
-                    <div className="card-body">
-                        <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item">Cras justo odio</li>
-                        <li className="list-group-item">Dapibus ac facilisis in</li>
-                        <li className="list-group-item">Vestibulum at eros</li>
-                    </ul>
-                    <div className="card-body">
-                        <a href="#" className="card-link">Card link</a>
-                        <a href="#" className="card-link">Another link</a>
-                    </div>
-                    <div className="card-footer text-muted">
-                        2 days ago
-                    </div>
-                </div>
-            </div>
+        <div className="col-md-8">
+            { contentError }
+            { contentLoader }
+            { content }
+        </div>
         )
     }
+}
+
+const PersonView = ({ person }) => {
+
+    if (!person) {
+        return (
+            <span>Выбери персонажа в списке слево</span>
+        )
+    }
+
+    return (
+        <div className="card person-details">
+            <h3 className="card-header">Информация о персонаже</h3>
+            <div className="card-body">
+                <h5 className="card-title">{ person.name }</h5>
+            </div>
+            <img className="img-fluid d-block user-select-none" alt={ person.name } src={`https://starwars-visualguide.com/assets/img/characters/${person.id}.jpg`}></img>
+            <br/>
+            <ul className="list-group list-group-flush">
+                <li className="list-group-item"><b>Дата рождения: { person.bithYear }</b></li>
+            </ul>
+        </div>
+    )
 }

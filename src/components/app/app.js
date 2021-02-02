@@ -12,7 +12,6 @@ export default class App extends Component {
     }
 
     onPersonSelected = (id) => {
-        console.log(id)
         this.setState({
             selectedPerson: id
         })
@@ -29,9 +28,8 @@ export default class App extends Component {
                     </div>
                     <br/>
                     <div className="row">
-                        
                         < ItemList onPersonSelected={ this.onPersonSelected } />
-                        <PersonDetails />
+                        <PersonDetails personId={ this.state.selectedPerson } />
                     </div>
                 </div>
             </div>
