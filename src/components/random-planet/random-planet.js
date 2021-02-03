@@ -69,14 +69,14 @@ export default class RandomPlanet extends Component {
 
 const PlanetView = ({ planet }) => {
 
-    const { id, name, population, rotationPeriod, diameter } = planet
+    const { id, name, image, population, rotationPeriod, diameter } = planet
     
     return (
 
         <React.Fragment>
             <div className="row">
                 <div className="col-md-3">
-                        <img className="img-fluid" alt={ name } src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}></img>
+                        <img className="img-fluid" alt={ name } src={image}></img>
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">

@@ -1,6 +1,7 @@
 export default class SwapiService {
 
     _apiBase = `https://swapi.dev/api`
+    _imageBase = `https://starwars-visualguide.com/assets/img`
 
     async getResourse(url) {
         const res = await fetch(`${this._apiBase}${url}`)
@@ -46,9 +47,23 @@ export default class SwapiService {
         return item.url.match(idRegeEx)[1]
     }
 
+    _addUrlImagePlanet(id) {
+        return `${this._imageBase}/planets/${id}.jpg`
+    }
+
+    _addUrlImagePerson(id) {
+        return `${this._imageBase}/characters/${id}.jpg`
+    }
+
+    _addUrlImageStarchip(id) {
+        return `${this._imageBase}/starships/${id}.jpg`
+    }
+
     _trandformPlanet = (planet) => {
+        const id = this._extractId(planet)
         return {
-            id: this._extractId(planet),
+            id,
+            image: this._addUrlImagePlanet(id),
             name: planet.name,
             population: planet.population,
             rotationPeriod: planet.rotation_period,
@@ -57,8 +72,10 @@ export default class SwapiService {
     }
 
     _transformStarchip = (starship) => {
+        const id = this._extractId(starship)
         return {
-            id: this._extractId(starship),
+            id,
+            image: this._addUrlImageStarchip(id),
             name: starship.name,
             model: starship.model,
             manufacturer: starship.manufacturer,
@@ -71,8 +88,10 @@ export default class SwapiService {
     }
 
     _transformPerson = (person) => {
+        const id = this._extractId(person)
         return {
-            id: this._extractId(person),
+            id,
+            image: this._addUrlImagePerson(id),
             name: person.name,
             gender: person.gender,
             bithYear: person.birth_year,

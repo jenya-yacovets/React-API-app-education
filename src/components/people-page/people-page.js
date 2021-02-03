@@ -30,7 +30,6 @@ export default class PeoplePage extends Component {
                 <ItemDetails 
                 itemId={ this.state.selectedPerson}
                 getData={this.swapiServise.getPerson}
-                getImageUrl={({ id }) => {return `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}}
                 />
             </div>
         )

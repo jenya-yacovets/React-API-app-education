@@ -11,13 +11,12 @@ export default class ItemDetails extends Component {
 
     state = {
         item: null,
-        image: null,
         loading: false,
         error: false
     }
 
     updateItem() {
-        const { itemId, getData, getImageUrl } = this.props
+        const { itemId, getData } = this.props
         if (!itemId) return
         
         this.setState({
@@ -28,7 +27,6 @@ export default class ItemDetails extends Component {
         .then(item => {
             this.setState({
                 item,
-                image: getImageUrl(item),
                 loading: false,
                 error: false
             })  
@@ -52,11 +50,11 @@ export default class ItemDetails extends Component {
 
     render() {
 
-        const { item, loading, error, image } = this.state
+        const { item, loading, error } = this.state
 
         const contentError = error ? <ErrorIndicator /> : null
         const contentLoader = loading && !error ? <Spiner /> : null
-        const content = !error && !loading ? <ItemView item={item} image={image} /> : null
+        const content = !error && !loading ? <ItemView item={item} /> : null
 
         return (
         <div className="col-md-8">
@@ -69,7 +67,7 @@ export default class ItemDetails extends Component {
     }
 }
 
-const ItemView = ({ item, image }) => {
+const ItemView = ({ item }) => {
     if (!item) {
         return (
             <span>Выбери персонажа в списке слево</span>
@@ -82,7 +80,7 @@ const ItemView = ({ item, image }) => {
             <div className="card-body">
                 <h5 className="card-title">{ item.name }</h5>
             </div>
-            <img className="img-fluid d-block user-select-none" alt={ item.name } src={image}></img>
+            <img className="img-fluid d-block user-select-none" alt={ item.name } src={item.image}></img>
             <br/>
             <ul className="list-group list-group-flush">
             <li className="list-group-item"><b>Дата рождения: { item.bithYear }</b></li>
