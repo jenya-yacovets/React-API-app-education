@@ -84,7 +84,8 @@ const PersonView = ({ person }) => {
             <img className="img-fluid d-block user-select-none" alt={ person.name } src={`https://starwars-visualguide.com/assets/img/characters/${person.id}.jpg`}></img>
             <br/>
             <ul className="list-group list-group-flush">
-                <li className="list-group-item"><b>Дата рождения: { person.bithYear }</b></li>
+            <li className="list-group-item"><b>Дата рождения: { person.bithYear }</b></li>
+            <li className="list-group-item"><b>Пол: { person.gender }</b></li>
             </ul>
         </div>
     )

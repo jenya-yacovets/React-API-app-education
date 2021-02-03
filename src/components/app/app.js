@@ -36,7 +36,11 @@ export default class App extends Component {
                     </div>
                     <PeoplePage />
                     <div className="row">
-                        <ItemList onPersonSelected={ this.onPersonSelected } getDate={this.swapiServise.getAllPlanets} />
+                        <ItemList
+                        onPersonSelected={ this.onPersonSelected }
+                        getDate={this.swapiServise.getAllPlanets}
+                        renderItem={(item) => { return item.name}}
+                        />
                         <PersonDetails personId={ this.state.selectedPerson } />
                     </div>
                 </div>

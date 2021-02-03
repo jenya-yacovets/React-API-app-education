@@ -35,7 +35,11 @@ export default class ItemList extends Component {
 
         const contentError = error ? < ErrorIndicator /> : null
         const contentLoader = loading ? < Spiner /> : null
-        const content = !error && !loading ? <ItemListViews itemList={ itemList } onPersonSelected={ this.props.onPersonSelected } /> : null
+        const content = !error && !loading ? <ItemListViews 
+        itemList={ itemList } 
+        onPersonSelected={ this.props.onPersonSelected }
+        renderItem={this.props.renderItem}
+        /> : null
         
         return (
             <div className="col-md-4">
@@ -48,14 +52,19 @@ export default class ItemList extends Component {
     }
 }
 
-const ItemListViews = ({ itemList, onPersonSelected }) => {
+const ItemListViews = ({ itemList, onPersonSelected, renderItem }) => {
+
 
     const items = itemList.map(item => {
+        const label = renderItem(item)
+
         return  (
             <li key={ item.id } 
             className="list-group-item"
             onClick={ () => onPersonSelected(item.id)}
-            >{ item.name }</li>
+            >
+            { label }
+            </li>
         )
     })
 
