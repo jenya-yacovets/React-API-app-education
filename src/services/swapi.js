@@ -1,6 +1,7 @@
 export default class SwapiService {
 
     _apiBase = `https://swapi.dev/api`
+    _imageBase = `https://starwars-visualguide.com/assets/img`
 
     async getResourse(url) {
         const res = await fetch(`${this._apiBase}${url}`)
@@ -11,32 +12,32 @@ export default class SwapiService {
         return await res.json()
     }
 
-    async getAllPeople() {
+    getAllPeople = async () => {
         const res = await this.getResourse(`/people/`)
         return res.results.map(this._transformPerson)
     }
 
-    async getPerson(id) {
+    getPerson = async (id) => {
         const res = await this.getResourse(`/people/${id}`)
         return this._transformPerson(res)
     }
 
-    async getAllPlanets() {
+    getAllPlanets = async () => {
         const res = await this.getResourse(`/planets/`)
         return res.results.map(this._trandformPlanet)
     }
 
-    async getPlanet(id) {
+    getPlanet = async (id) => {
         const res = await this.getResourse(`/planets/${id}`)
         return this._trandformPlanet(res)
     }
 
-    async getAllStarships() {
+    getAllStarships = async () => {
         const res = await this.getResourse(`/starships/`)
         return res.results.map(this._transformStarchip)
     }
 
-    async getStarship(id) {
+    getStarship = async (id) => {
         const res = await this.getResourse(`/starships/${id}`)
         return this._transformStarchip(res)
     }
@@ -46,9 +47,23 @@ export default class SwapiService {
         return item.url.match(idRegeEx)[1]
     }
 
+    _addUrlImagePlanet(id) {
+        return `${this._imageBase}/planets/${id}.jpg`
+    }
+
+    _addUrlImagePerson(id) {
+        return `${this._imageBase}/characters/${id}.jpg`
+    }
+
+    _addUrlImageStarchip(id) {
+        return `${this._imageBase}/starships/${id}.jpg`
+    }
+
     _trandformPlanet = (planet) => {
+        const id = this._extractId(planet)
         return {
-            id: this._extractId(planet),
+            id,
+            image: this._addUrlImagePlanet(id),
             name: planet.name,
             population: planet.population,
             rotationPeriod: planet.rotation_period,
@@ -57,8 +72,10 @@ export default class SwapiService {
     }
 
     _transformStarchip = (starship) => {
+        const id = this._extractId(starship)
         return {
-            id: this._extractId(starship),
+            id,
+            image: this._addUrlImageStarchip(id),
             name: starship.name,
             model: starship.model,
             manufacturer: starship.manufacturer,
@@ -71,8 +88,10 @@ export default class SwapiService {
     }
 
     _transformPerson = (person) => {
+        const id = this._extractId(person)
         return {
-            id: this._extractId(person),
+            id,
+            image: this._addUrlImagePerson(id),
             name: person.name,
             gender: person.gender,
             bithYear: person.birth_year,

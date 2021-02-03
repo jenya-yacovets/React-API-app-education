@@ -4,8 +4,11 @@ import Header from '../header'
 import RandomPlanet from '../random-planet'
 import ErrorIndicator from "../error-indicator";
 import PeoplePage from "../people-page";
+import SwapiService from "../../services/swapi";
 
 export default class App extends Component {
+
+    swapiServise = new SwapiService()
 
     state = {
         error: false
@@ -29,7 +32,6 @@ export default class App extends Component {
                     <div className="row">
                         < RandomPlanet />
                     </div>
-                    <br/>
                     <PeoplePage />
                 </div>
             </div>
