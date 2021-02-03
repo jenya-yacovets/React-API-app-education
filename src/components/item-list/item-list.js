@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ErrorBoundry from "../error-boundry";
 import ErrorIndicator from "../error-indicator";
 import Spiner from "../spiner";
 
@@ -43,10 +44,12 @@ export default class ItemList extends Component {
         
         return (
             <div className="col-md-4">
-                 <br/>
-                { contentError }
-                { contentLoader }
-                { content }
+                <ErrorBoundry>
+                    <br/>
+                    { contentError }
+                    { contentLoader }
+                    { content }
+                </ErrorBoundry>
             </div>
         )
     }
