@@ -4,8 +4,13 @@ import Header from '../header'
 import RandomPlanet from '../random-planet'
 import ErrorIndicator from "../error-indicator";
 import PeoplePage from "../people-page";
+import SwapiService from "../../services/swapi";
+import ItemList from "../item-list";
+import PersonDetails from "../person-details";
 
 export default class App extends Component {
+
+    swapiServise = new SwapiService()
 
     state = {
         error: false
@@ -29,8 +34,11 @@ export default class App extends Component {
                     <div className="row">
                         < RandomPlanet />
                     </div>
-                    <br/>
                     <PeoplePage />
+                    <div className="row">
+                        <ItemList onPersonSelected={ this.onPersonSelected } getDate={this.swapiServise.getAllPlanets} />
+                        <PersonDetails personId={ this.state.selectedPerson } />
+                    </div>
                 </div>
             </div>
         )

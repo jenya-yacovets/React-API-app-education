@@ -58,6 +58,7 @@ export default class PersonDetails extends Component {
 
         return (
         <div className="col-md-8">
+             <br/>
             { contentError }
             { contentLoader }
             { content }
