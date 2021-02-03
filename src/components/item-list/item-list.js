@@ -18,7 +18,8 @@ export default class ItemList extends Component {
             .then((peopleList) => {
                 this.setState({
                     peopleList,
-                    loading: false
+                    loading: false,
+                    error: false
                 })
             })
             .catch(() => {

@@ -33,7 +33,8 @@ export default class PersonDetails extends Component {
         })
         .catch(() => {
             this.setState({
-                error: true
+                error: true,
+                loading: false
             }) 
         })
     }
