@@ -3,30 +3,32 @@ import SwapiService from "../../services/swapi";
 import ErrorIndicator from "../error-indicator";
 import Spiner from "../spiner";
 
-import './person-details.css'
+import './item-details.css'
 
-export default class PersonDetails extends Component {
+export default class ItemDetails extends Component {
 
     swapiServise = new SwapiService()
 
     state = {
-        person: null,
+        item: null,
+        image: null,
         loading: false,
         error: false
     }
 
-    updatePerson() {
-        const { personId } = this.props
-        if (!personId) return
+    updateItem() {
+        const { itemId, getData, getImageUrl } = this.props
+        if (!itemId) return
         
         this.setState({
             loading: true,
         }) 
 
-        this.swapiServise.getPerson(personId)
-        .then(person => {
+        getData(itemId)
+        .then(item => {
             this.setState({
-                person,
+                item,
+                image: getImageUrl(item),
                 loading: false,
                 error: false
             })  
@@ -40,21 +42,21 @@ export default class PersonDetails extends Component {
     }
 
     componentDidMount() {
-        this.updatePerson()
+        this.updateItem()
     }
     componentDidUpdate(prevProps) {
-        if (this.props.personId !== prevProps.personId) {
-            this.updatePerson()
+        if (this.props.itemId !== prevProps.itemId) {
+            this.updateItem()
         }
     }
 
     render() {
 
-        const { person, loading, error } = this.state
+        const { item, loading, error, image } = this.state
 
         const contentError = error ? <ErrorIndicator /> : null
         const contentLoader = loading && !error ? <Spiner /> : null
-        const content = !error && !loading ? <PersonView person={ person } /> : null
+        const content = !error && !loading ? <ItemView item={item} image={image} /> : null
 
         return (
         <div className="col-md-8">
@@ -67,9 +69,8 @@ export default class PersonDetails extends Component {
     }
 }
 
-const PersonView = ({ person }) => {
-
-    if (!person) {
+const ItemView = ({ item, image }) => {
+    if (!item) {
         return (
             <span>Выбери персонажа в списке слево</span>
         )
@@ -79,13 +80,13 @@ const PersonView = ({ person }) => {
         <div className="card person-details">
             <h3 className="card-header">Информация о персонаже</h3>
             <div className="card-body">
-                <h5 className="card-title">{ person.name }</h5>
+                <h5 className="card-title">{ item.name }</h5>
             </div>
-            <img className="img-fluid d-block user-select-none" alt={ person.name } src={`https://starwars-visualguide.com/assets/img/characters/${person.id}.jpg`}></img>
+            <img className="img-fluid d-block user-select-none" alt={ item.name } src={image}></img>
             <br/>
             <ul className="list-group list-group-flush">
-            <li className="list-group-item"><b>Дата рождения: { person.bithYear }</b></li>
-            <li className="list-group-item"><b>Пол: { person.gender }</b></li>
+            <li className="list-group-item"><b>Дата рождения: { item.bithYear }</b></li>
+            <li className="list-group-item"><b>Пол: { item.gender }</b></li>
             </ul>
         </div>
     )

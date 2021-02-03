@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SwapiService from "../../services/swapi";
 
 import ItemList from "../item-list";
-import PersonDetails from "../person-details";
+import ItemDetails from "../item-details";
 
 export default class PeoplePage extends Component {
 
@@ -27,7 +27,11 @@ export default class PeoplePage extends Component {
                 getDate={this.swapiServise.getAllPeople}
                 renderItem={({name, gender}) => `${name} (${gender})`}
                 />
-                <PersonDetails personId={ this.state.selectedPerson } />
+                <ItemDetails 
+                itemId={ this.state.selectedPerson}
+                getData={this.swapiServise.getPerson}
+                getImageUrl={({ id }) => {return `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}}
+                />
             </div>
         )
     }
