@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import SwapiService from "../../services/swapi";
 
-import ItemList from "../item-list";
 import ItemDetails from "../item-details";
 import { Record } from "../item-details/item-details";
+import { PersonList } from "../sw-components";
 
 export default class PeoplePage extends Component {
 
@@ -23,9 +23,9 @@ export default class PeoplePage extends Component {
         
         return(
             <div className="row">
-                <ItemList 
-                onPersonSelected={this.onPersonSelected} 
-                getDate={this.swapiServise.getAllPeople}
+
+                <PersonList 
+                onPersonSelected={this.onPersonSelected}
                 renderItem={({name, gender}) => `${name} (${gender})`}
                 />
                 <ItemDetails 
