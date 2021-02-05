@@ -42,6 +42,7 @@ export default class ItemDetails extends Component {
     componentDidMount() {
         this.updateItem()
     }
+    
     componentDidUpdate(prevProps) {
         if (this.props.itemId !== prevProps.itemId) {
             this.updateItem()
@@ -54,7 +55,7 @@ export default class ItemDetails extends Component {
 
         const contentError = error ? <ErrorIndicator /> : null
         const contentLoader = loading && !error ? <Spiner /> : null
-        const content = !error && !loading ? <ItemView item={item} /> : null
+        const content = !error && !loading ? <ItemView item={item} children={this.props.children} /> : null
 
         return (
         <div className="col-md-8">
@@ -67,7 +68,7 @@ export default class ItemDetails extends Component {
     }
 }
 
-const ItemView = ({ item }) => {
+const ItemView = ({ item, children }) => {
     if (!item) {
         return (
             <span>Выбери персонажа в списке слево</span>
@@ -83,9 +84,22 @@ const ItemView = ({ item }) => {
             <img className="img-fluid d-block user-select-none" alt={ item.name } src={item.image}></img>
             <br/>
             <ul className="list-group list-group-flush">
-            <li className="list-group-item"><b>Дата рождения: { item.bithYear }</b></li>
-            <li className="list-group-item"><b>Пол: { item.gender }</b></li>
+                {
+                    React.Children.map(children, (child) => {
+                        return React.cloneElement(child, {item})
+                    })
+                }
             </ul>
         </div>
     )
+}
+
+const Record = ({item, field, label}) => {
+    return(
+        <li className="list-group-item"><b>{label}: { item[field] }</b></li>
+    )
+}
+
+export {
+    Record
 }

@@ -3,6 +3,7 @@ import SwapiService from "../../services/swapi";
 
 import ItemList from "../item-list";
 import ItemDetails from "../item-details";
+import { Record } from "../item-details/item-details";
 
 export default class PeoplePage extends Component {
 
@@ -29,8 +30,11 @@ export default class PeoplePage extends Component {
                 />
                 <ItemDetails 
                 itemId={ this.state.selectedPerson}
-                getData={this.swapiServise.getPerson}
-                />
+                getData={this.swapiServise.getPerson}>
+                    <Record field="gender" label="Пол" />
+                    <Record field="eyeColor" label="Цвет глаз" />
+                    <Record field="bithYear" label="Год рождения" />
+                </ItemDetails>
             </div>
         )
     }
