@@ -1,64 +1,10 @@
-import React, { Component } from "react";
-import ErrorBoundry from "../error-boundry";
-import ErrorIndicator from "../error-indicator";
-import Spiner from "../spiner";
+import React from "react";
 
-export default class ItemList extends Component {
+const ItemList = (props) => {
 
-    state = {
-        itemList: null,
-        loading: true,
-        error: false
-    }
+    const { data, onPersonSelected, renderItem } = props
 
-    componentDidMount() {
-
-        const { getDate } = this.props
-
-        getDate()
-            .then((itemList) => {
-                this.setState({
-                    itemList,
-                    loading: false,
-                    error: false
-                })
-            })
-            .catch(() => {
-                this.setState({
-                    loading: false,
-                    error: true
-                })
-            })
-    }
-
-    render() {
-        const { itemList, error, loading } = this.state
-
-        const contentError = error ? < ErrorIndicator /> : null
-        const contentLoader = loading ? < Spiner /> : null
-        const content = !error && !loading ? <ItemListViews 
-        itemList={ itemList } 
-        onPersonSelected={ this.props.onPersonSelected }
-        renderItem={this.props.renderItem}
-        /> : null
-        
-        return (
-            <div className="col-md-4">
-                <ErrorBoundry>
-                    <br/>
-                    { contentError }
-                    { contentLoader }
-                    { content }
-                </ErrorBoundry>
-            </div>
-        )
-    }
-}
-
-const ItemListViews = ({ itemList, onPersonSelected, renderItem }) => {
-
-
-    const items = itemList.map(item => {
+    const items = data.map(item => {
         const label = renderItem(item)
 
         return  (
@@ -79,3 +25,5 @@ const ItemListViews = ({ itemList, onPersonSelected, renderItem }) => {
         </div>
     )
 }
+
+export default ItemList
