@@ -4,11 +4,24 @@ import ItemList from '../item-list'
 
 const  { getAllPeople, getAllPlanets, getAllStarships } = new SwapiService()
 
-const PersonList = withData(ItemList, getAllPeople)
+const withChildrenFunction = (View, func) => {
 
-const PlanetList = withData(ItemList, getAllPlanets)
+    return (props) => {
+        return (
+            <View {...props}>
+                {func}
+            </View>
+        )
+    }
+}
 
-const StarshipList = withData(ItemList, getAllStarships)
+const newItemList = withChildrenFunction(ItemList, ({name}) => name)
+
+const PersonList = withData(newItemList, getAllPeople)
+
+const PlanetList = withData(newItemList, getAllPlanets)
+
+const StarshipList = withData(newItemList, getAllStarships)
 
 export {
     PersonList,

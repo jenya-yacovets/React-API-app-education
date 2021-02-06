@@ -1,6 +1,4 @@
-import React from "react";
-import SwapiService from "../../services/swapi";
-import { withDataItemDetails } from "../hoc-helpers";
+import React from "react"
 
 import './item-details.css'
 
@@ -36,9 +34,7 @@ const Record = ({ item, field, label }) => {
     )
 }
 
-const swapiServise = new SwapiService()
-
-export default withDataItemDetails(ItemView, swapiServise.getPerson)
+export default ItemView
 
 export {
     Record

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import SwapiService from "../../services/swapi";
 
-import ItemDetails from "../item-details";
 import { Record } from "../item-details/item-details";
-import { PersonList } from "../sw-components";
+import { PersonList, PersonDetails } from "../sw-components";
 
 export default class PeoplePage extends Component {
 
@@ -24,17 +23,13 @@ export default class PeoplePage extends Component {
         return(
             <div className="row">
 
-                <PersonList 
-                onPersonSelected={this.onPersonSelected}
-                renderItem={({name, gender}) => `${name} (${gender})`}
-                />
-                <ItemDetails 
-                itemId={ this.state.selectedPerson}
-                getData={this.swapiServise.getPerson}>
+                <PersonList onPersonSelected={this.onPersonSelected} />
+                <PersonDetails 
+                itemId={ this.state.selectedPerson}>
                     <Record field="gender" label="Пол" />
                     <Record field="eyeColor" label="Цвет глаз" />
                     <Record field="bithYear" label="Год рождения" />
-                </ItemDetails>
+                </PersonDetails>
             </div>
         )
     }

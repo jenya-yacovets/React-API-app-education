@@ -2,7 +2,7 @@ import React from "react";
 
 const ItemList = (props) => {
 
-    const { data, onPersonSelected, renderItem } = props
+    const { data, onPersonSelected, children: renderItem } = props
 
     const items = data.map(item => {
         const label = renderItem(item)
